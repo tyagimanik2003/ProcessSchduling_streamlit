@@ -1,9 +1,9 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 
-# Function to create the Gantt chart
-def create_gantt_chart(processes):
-    sorted_processes = sorted(processes, key=lambda x: (x[1], x[0]))
+# Function to create the Gantt chart for Shortest Job First
+def create_gantt_chart_sjf(processes):
+    sorted_processes = sorted(processes, key=lambda x: x[2])
 
     fig, ax = plt.subplots()
     ax.set_ylim(0, len(sorted_processes))
@@ -27,14 +27,14 @@ def create_gantt_chart(processes):
         ax.barh(i, end_times[i] - start_times[i], left=start_times[i], height=0.5, align='center', alpha=0.8)
         ax.text(start_times[i] + (end_times[i] - start_times[i]) / 2, i, str(end_times[i] - start_times[i]), ha='center', va='center')
 
-    ax.set_title("FCFS Gantt Chart (Arrival Time Priority)")
+    ax.set_title("Shortest Job First (SJF) Gantt Chart")
     ax.set_xlabel("Time")
 
     return fig
 
 # Streamlit app
 def main():
-    st.title("FCFS Scheduling Gantt Chart (Arrival Time Priority)")
+    st.title("Shortest Job First (SJF) Scheduling Gantt Chart")
 
     # Input form
     st.header("Input Process Details")
@@ -50,7 +50,7 @@ def main():
 
     # Generate Gantt chart button
     if st.button("Generate Gantt Chart"):
-        fig = create_gantt_chart(processes)
+        fig = create_gantt_chart_sjf(processes)
         st.pyplot(fig)
 
 if __name__ == "__main__":
